@@ -1,10 +1,19 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { auth } from './../firebase'
-import { onAuthStateChanged, signInWithRedirect, signInWithEmailAndPassword, getRedirectResult, GoogleAuthProvider, signOut, User } from 'firebase/auth';
+import { 
+  onAuthStateChanged,
+  signInWithRedirect,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signOut,
+  User,
+} from 'firebase/auth';
 
 type authContextType = {
   user: User | null;
   emailLogin: (email: string, password: string) => Promise<any>;
+  emailCreate: (email: string, password: string) => Promise<any>;
   googleLogin: () => Promise<any>;
   logout: () => Promise<any>;
 }
@@ -24,8 +33,21 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     return signInWithRedirect(auth, provider);
   }
 
-  const emailLogin = (email: string, password: string) => {
-    return signInWithEmailAndPassword(auth, email, password);
+  const emailLogin = async(email: string, password: string) => {
+    try {
+      return await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      console.log(error.message);
+      throw new Error(error.message);
+    }
+  }
+
+  const emailCreate = async(email: string, password: string) => {
+    try {
+      return await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      throw new Error(error.message);
+    }
   }
 
   const logout = () => {
@@ -42,6 +64,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     user,
     googleLogin,
+    emailCreate,
     emailLogin,
     logout
   }
