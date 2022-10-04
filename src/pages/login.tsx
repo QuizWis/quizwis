@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Typography } from 'antd'
+import { Button, Card, Col, Form, Input, message, Row, Typography } from 'antd'
 import type { NextPage } from 'next'
 import { useAuth } from '../features/auth/hooks/AuthContext'
 import Link from 'next/link';
@@ -18,7 +18,6 @@ const LoginPage: NextPage<PagePropsType> = () => {
 
   return (
     <div>
-      <Typography.Title>Login</Typography.Title>
       {user &&
         <div>
           <p>{user.email}としてログインしています。</p>
@@ -26,25 +25,35 @@ const LoginPage: NextPage<PagePropsType> = () => {
         </div>
       }
       {!user &&
-        <div>
+        <Card style={{ maxWidth: "360px", margin: "auto" }}>
+          <Typography.Title level={3}>ログイン</Typography.Title>
+          <Form
+            layout="vertical"
+            form={form}
+            onFinish={onLogin}
+          >
+            <Form.Item name="email" rules={[{ required: true, type: 'email' }]}>
+              <Input placeholder='メールアドレス'/>
+            </Form.Item>
+            <Form.Item name="password" rules={[{ required: true }]}>
+              <Input.Password placeholder='パスワード'/>
+              <Link href='/register'>
+                <a style={{ float: "right" }}>パスワードを忘れた</a>
+              </Link>
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType='submit' style={{ width: "100%" }}>
+                ログイン
+              </Button>
+              <Link href='/register'>
+                <Typography.Text>または<a>新規登録</a></Typography.Text>
+              </Link>
+            </Form.Item>
+          </Form>
           <div>
             <Button onClick={googleLogin}>Googleでログイン</Button>
           </div>
-          <Form form={form} onFinish={onLogin}>
-            <Form.Item name="email" label="メールアドレス" rules={[{ required: true, type: 'email' }]}>
-              <Input />
-            </Form.Item>
-            <Form.Item name="password" label="パスワード" rules={[{ required: true }]}>
-              <Input.Password />
-            </Form.Item>
-            <Button type="primary" htmlType='submit'>
-              ログイン
-            </Button>
-          </Form>
-          <Link href='/register'>
-            <a>新規登録はこちら</a>
-          </Link>
-        </div>
+        </Card>
       }
     </div>
   )
