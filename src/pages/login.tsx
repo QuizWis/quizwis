@@ -1,10 +1,11 @@
-import { Button, Form, Input, message } from 'antd'
+import { Button, Form, Input, message, Typography } from 'antd'
 import type { NextPage } from 'next'
 import { useAuth } from '../features/auth/hooks/AuthContext'
 import Link from 'next/link';
+import { PagePropsType } from '../types/PagePropsType';
 
-const LoginPage: NextPage = () => {
-  const { user, googleLogin, logout, emailCreate, emailLogin } = useAuth();
+const LoginPage: NextPage<PagePropsType> = () => {
+  const { user, googleLogin, logout, emailLogin } = useAuth();
   const [form] = Form.useForm();
 
   const onLogin = async(values: { email: string, password: string }) => {
@@ -17,7 +18,7 @@ const LoginPage: NextPage = () => {
 
   return (
     <div>
-      <h1>Login</h1>
+      <Typography.Title>Login</Typography.Title>
       {user &&
         <div>
           <p>{user.email}としてログインしています。</p>
@@ -47,6 +48,10 @@ const LoginPage: NextPage = () => {
       }
     </div>
   )
+}
+
+LoginPage.getInitialProps = async () => {
+  return { title: "ログイン - QuizWis" }
 }
 
 export default LoginPage
