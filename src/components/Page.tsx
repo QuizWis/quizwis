@@ -4,18 +4,17 @@ import CustomHeader from './CustomHeader';
 
 const Page = ({ children }: { children: ReactNode; }) => {
   return (
-    <AppShell 
-      header={<CustomHeader />}
-      padding="md"
-      fixed={false}
-      styles={(theme) => ({
-        main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
-      })}
-    >
-      <Container>
-        {children}
-      </Container>
-    </AppShell>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <AppShell 
+        header={<CustomHeader />}
+        padding="md"
+        fixed={false}
+      >
+        <Container>
+          {children}
+        </Container>
+      </AppShell>
+    </div>
   )
 }
 

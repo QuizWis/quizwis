@@ -1,13 +1,20 @@
-import { Header, Container, Button } from '@mantine/core';
+import { Header, Container, Button, Group, Title } from '@mantine/core';
+import Link from 'next/link';
 
 const CustomHeader = () => {
   return (
-    <Header height="60px" px="md">
-      <Container>
-        <Button>
-          ボタンの例
-        </Button>
-      </Container>
+    <Header height="60px" px="md" style={{ display: "flex", justifyContent: 'space-between', alignItems: "center"}}>
+      <Link href="/" passHref>
+        <Title order={3}>QuizWis</Title>
+      </Link>
+      <Group>
+        <Link href="/login" passHref>
+          <Button variant='outline'>ログイン</Button>
+        </Link>
+        <Link href="/register" passHref>
+          <Button>新規登録</Button>
+        </Link>
+      </Group>
     </Header>
   )
 }

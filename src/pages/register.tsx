@@ -68,18 +68,18 @@ const RegisterPage: NextPage<PagePropsType> = () => {
               withAsterisk
               label="メールアドレス"
               {...form.getInputProps('email')}
-              pb="xs"
             />
             <PasswordInput
               withAsterisk
               label="パスワード"
               {...form.getInputProps('password')}
+              pt="xs"
             />
             <PasswordInput
               withAsterisk
               label="パスワード(確認)"
               {...form.getInputProps('passwordCheck')}
-              
+              pt="xs"
             />
             <Button type='submit' fullWidth mt="sm">
               登録
