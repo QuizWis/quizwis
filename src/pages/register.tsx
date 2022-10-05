@@ -1,28 +1,52 @@
-import { Button, Form, Input, message, Typography } from 'antd'
+import { useForm } from "@mantine/form"
 import type { NextPage } from 'next'
 import { useAuth } from '../features/auth/hooks/AuthContext'
 import Link from 'next/link';
 import { PagePropsType } from '../types/PagePropsType';
+import { Button, TextInput, Title, Text, PasswordInput, Paper, Group, Divider, Anchor } from '@mantine/core';
+import GoogleButton from '../components/GoogleButton';
+import TwitterButton from '../components/TwitterButton';
+import { showNotification } from '@mantine/notifications';
 
-const LoginPage: NextPage<PagePropsType> = () => {
+const RegisterPage: NextPage<PagePropsType> = () => {
   const { user, logout, emailCreate } = useAuth();
-  const [form] = Form.useForm();
 
-  const onLogin = async(values: { email: string, password: string, passwordConfirm: string }) => {
-    if (values.password == values.passwordConfirm) {
-      try {
-        await emailCreate(values.email, values.password);
-      } catch (error: any) {
-        message.error("アカウントの登録に失敗しました。");
-      }
+  const PasswordValidation = (value: string) => {
+    if (!value) {
+      return 'パスワードは必須です。';
+    } else if(value.length < 6) {
+      return 'パスワードは6文字以上にしてください。';
+    } else if (value.length > 128) {
+      return 'パスワードは128文字以下にしてください。';
+    } else if (!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[!-~]{8,100}$/.test(value)) {
+      return 'パスワードには英小文字と大文字、数字を含めてください。';
     } else {
-      message.error('パスワードが一致しません。');
+      return null;
+    }
+  }
+
+  const form = useForm({
+    validate: {
+      email: (value: string) => (/^\S+@\S+$/.test(value) ? null : '正しいメールアドレスを入力してください。'),
+      password: (value: string) => PasswordValidation(value),
+      passwordCheck: (value: string, values: any) => (value === values.password ? null : 'パスワードが一致しません。'),
+    }
+  });
+
+  const onLogin = async(values: { email: string, password: string }) => {
+    try {
+      await emailCreate(values.email, values.password);
+    } catch (error: any) {
+      showNotification({
+        color: 'red',
+        title: 'アカウント作成失敗',
+        message: 'アカウントの作成に失敗しました。',
+      });
     }
   }
 
   return (
     <div>
-      <Typography.Title>Register</Typography.Title>
       {user &&
         <div>
           <p>{user.email}としてログインしています。</p>
@@ -30,32 +54,53 @@ const LoginPage: NextPage<PagePropsType> = () => {
         </div>
       }
       {!user &&
-        <div>
-          <Form form={form} onFinish={onLogin}>
-            <Form.Item name="email" label="メールアドレス" rules={[{ required: true, type: 'email' }]}>
-              <Input />
-            </Form.Item>
-            <Form.Item name="password" label="パスワード" rules={[{ required: true }]}>
-              <Input.Password />
-            </Form.Item>
-            <Form.Item name="passwordConfirm" label="パスワード（確認）" rules={[{ required: true }]}>
-              <Input.Password />
-            </Form.Item>
-            <Button type="primary" htmlType='submit'>
-              新規登録
+        <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: "360px"}}>
+          <Title order={2} pt="sm">
+            新規登録
+          </Title>
+          <Group grow mb="md" mt="md">
+            <GoogleButton>Google</GoogleButton>
+            <TwitterButton>Twitter</TwitterButton>
+          </Group>
+          <Divider label="または" labelPosition="center" my="lg" />
+          <form onSubmit={form.onSubmit(onLogin)}>
+            <TextInput
+              withAsterisk
+              label="メールアドレス"
+              {...form.getInputProps('email')}
+              pb="xs"
+            />
+            <PasswordInput
+              withAsterisk
+              label="パスワード"
+              {...form.getInputProps('password')}
+            />
+            <PasswordInput
+              withAsterisk
+              label="パスワード(確認)"
+              {...form.getInputProps('passwordCheck')}
+              
+            />
+            <Button type='submit' fullWidth mt="sm">
+              登録
             </Button>
-          </Form>
-          <Link href='/login'>
-            <a>ログインはこちら</a>
+          </form>
+          <Link href='/login' passHref>
+            <Text align="center" mt="md" size="sm">
+              既にアカウントをお持ちの方は
+              <Anchor<'a'>>
+                こちら
+              </Anchor>
+            </Text>
           </Link>
-        </div>
+        </Paper>
       }
     </div>
   )
 }
 
-LoginPage.getInitialProps = async () => {
+RegisterPage.getInitialProps = async () => {
   return { title: "新規登録 - QuizWis" }
 }
 
-export default LoginPage
+export default RegisterPage

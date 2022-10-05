@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import { useAuth } from '../features/auth/hooks/AuthContext'
 import Link from 'next/link';
 import { PagePropsType } from '../types/PagePropsType';
-import { Button, Card, TextInput, Title, Text, PasswordInput, Paper, Group, Divider, Anchor, Container } from '@mantine/core';
+import { Button, TextInput, Title, Text, PasswordInput, Paper, Group, Divider, Anchor } from '@mantine/core';
 import GoogleButton from '../components/GoogleButton';
 import TwitterButton from '../components/TwitterButton';
 import { showNotification } from '@mantine/notifications';
@@ -11,24 +11,10 @@ import { showNotification } from '@mantine/notifications';
 const LoginPage: NextPage<PagePropsType> = () => {
   const { user, logout, emailLogin } = useAuth();
 
-  const PasswordValidation = (value: string) => {
-    if (!value) {
-      return 'パスワードは必須です。';
-    } else if(value.length < 6) {
-      return 'パスワードは6文字以上にしてください。';
-    } else if (value.length > 128) {
-      return 'パスワードは128文字以下にしてください。';
-    } else if (!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[!-~]{8,100}$/.test(value)) {
-      return 'パスワードには英小文字と大文字、数字を含めてください。';
-    } else {
-      return null;
-    }
-  }
-
   const form = useForm({
     validate: {
       email: (value: string) => (/^\S+@\S+$/.test(value) ? null : '正しいメールアドレスを入力してください。'),
-      password: (value: string) => PasswordValidation(value),
+      password: (value: string) => value ? null : 'パスワードは必須です。' ,
     }
   });
 
