@@ -740,6 +740,13 @@
     "@mantine/utils" "5.5.1"
     react-dropzone "14.2.2"
 
+"@mantine/ds@^5.5.2":
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/@mantine/ds/-/ds-5.5.2.tgz#ca46091da3299a6d016fff5794a7e15ad8907ead"
+  integrity sha512-TM2MUpk+KYDV5Ds4LvWgpRD27auSRY/bkiWBjfbLbd0TKBAnbzWaqc/hraUiELo4tBDY7uutOOrw/7thL09SLQ==
+  dependencies:
+    "@mantine/utils" "5.5.2"
+
 "@mantine/form@^5.5.1":
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/@mantine/form/-/form-5.5.1.tgz#e67405046b83d6f6e1d389e77f6b9751f08b5448"
@@ -827,6 +834,11 @@
   version "5.5.1"
   resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-5.5.1.tgz#da8db3e3ef9ad0f6d3fa26872f22f6a860b0ea8f"
   integrity sha512-XO6SJ8I9PvmPxF62W2RxhRfdxqDVO/5AThaO+JFQyCcldRy7gwlRsHolaAolJ9l7IABTtdyvbDu7hNFb8GxPmA==
+
+"@mantine/utils@5.5.2":
+  version "5.5.2"
+  resolved "https://registry.yarnpkg.com/@mantine/utils/-/utils-5.5.2.tgz#e8f1d1376207683c9502a4b6c4830234dd9dd872"
+  integrity sha512-fAU8PLTBNh4feAlcMchRb2q2DD0OVvXfIDFtEHzMgN27WRsT4ch9MkV8P/0TlPUISm/vtjJaJD+VuL0wo8/qug==
 
 "@next/env@12.3.1":
   version "12.3.1"

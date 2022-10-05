@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { PagePropsType } from '../types/PagePropsType';
 import { MantineProvider } from '@mantine/core';
 import Page from '../components/Page';
+import { NotificationsProvider } from '@mantine/notifications';
 
 function MyApp({ Component, pageProps }: AppProps<PagePropsType>) {
   return (
@@ -16,14 +17,16 @@ function MyApp({ Component, pageProps }: AppProps<PagePropsType>) {
         colorScheme: 'light',
       }}
     >
-      <Head>
-        <title>{pageProps.title}</title>
-      </Head>
-      <AuthProvider>
-        <Page>
-          <Component {...pageProps} />
-        </Page>
-      </AuthProvider>
+      <NotificationsProvider>
+        <Head>
+          <title>{pageProps.title}</title>
+        </Head>
+        <AuthProvider>
+          <Page>
+            <Component {...pageProps} />
+          </Page>
+        </AuthProvider>
+      </NotificationsProvider>
     </MantineProvider>
   )
 }

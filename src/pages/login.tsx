@@ -3,17 +3,22 @@ import type { NextPage } from 'next'
 import { useAuth } from '../features/auth/hooks/AuthContext'
 import Link from 'next/link';
 import { PagePropsType } from '../types/PagePropsType';
-import { Button, Card, TextInput, Title, Text, PasswordInput } from '@mantine/core';
+import { Button, Card, TextInput, Title, Text, PasswordInput, Paper, Group, Divider, Anchor, Container } from '@mantine/core';
+import GoogleButton from '../components/GoogleButton';
+import TwitterButton from '../components/TwitterButton';
+import { showNotification } from '@mantine/notifications';
 
 const LoginPage: NextPage<PagePropsType> = () => {
-  const { user, googleLogin, logout, emailLogin } = useAuth();
+  const { user, logout, emailLogin } = useAuth();
 
   const PasswordValidation = (value: string) => {
-    if(value.length < 6) {
+    if (!value) {
+      return 'パスワードは必須です。';
+    } else if(value.length < 6) {
       return 'パスワードは6文字以上にしてください。';
     } else if (value.length > 128) {
       return 'パスワードは128文字以下にしてください。';
-    } else if (!/^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[0x20-0x7e]$/.test(value)) {
+    } else if (!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[!-~]{8,100}$/.test(value)) {
       return 'パスワードには英小文字と大文字、数字を含めてください。';
     } else {
       return null;
@@ -31,7 +36,11 @@ const LoginPage: NextPage<PagePropsType> = () => {
     try {
       await emailLogin(values.email, values.password);
     } catch (error: any) {
-      console.error("ログインに失敗しました。");
+      showNotification({
+        color: 'red',
+        title: 'ログイン失敗',
+        message: 'ログインに失敗しました。',
+      });
     }
   }
 
@@ -44,10 +53,15 @@ const LoginPage: NextPage<PagePropsType> = () => {
         </div>
       }
       {!user &&
-        <Card shadow="sm" p="lg" radius="md" m="auto" withBorder style={{ maxWidth: "360px"}}>
-          <Title order={2} pb="sm">
+        <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: "360px"}}>
+          <Title order={2} pt="sm">
             ログイン
           </Title>
+          <Group grow mb="md" mt="md">
+            <GoogleButton>Google</GoogleButton>
+            <TwitterButton>Twitter</TwitterButton>
+          </Group>
+          <Divider label="または" labelPosition="center" my="lg" />
           <form onSubmit={form.onSubmit(onLogin)}>
             <TextInput
               withAsterisk
@@ -61,21 +75,25 @@ const LoginPage: NextPage<PagePropsType> = () => {
               {...form.getInputProps('password')}
             />
             <Link href='/register'>
-              <Text size="xs" variant="link" component="a" pb="xs">
-                パスワードを忘れた
+              <Text align="right" size="xs">
+                <Anchor<'a'>>
+                  パスワードを忘れた
+                </Anchor>
               </Text>
             </Link>
-            <Button type='submit' fullWidth>
+            <Button type='submit' fullWidth mt="sm">
               ログイン
             </Button>
-            <Link href='/register'>
-              <Text>または<Text variant="link" component="a">新規登録</Text></Text>
-            </Link>
           </form>
-          <div>
-            <Button onClick={googleLogin}>Googleでログイン</Button>
-          </div>
-        </Card>
+          <Link href='/register' passHref>
+            <Text align="center" mt="md" size="sm">
+              アカウントをお持ちでない方は
+              <Anchor<'a'>>
+                こちら
+              </Anchor>
+            </Text>
+          </Link>
+        </Paper>
       }
     </div>
   )

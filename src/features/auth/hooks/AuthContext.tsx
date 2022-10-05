@@ -6,8 +6,10 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
+  TwitterAuthProvider,
   signOut,
   User,
+  signInWithPopup,
 } from 'firebase/auth';
 
 type authContextType = {
@@ -15,6 +17,7 @@ type authContextType = {
   emailLogin: (email: string, password: string) => Promise<any>;
   emailCreate: (email: string, password: string) => Promise<any>;
   googleLogin: () => Promise<any>;
+  twitterLogin: () => Promise<any>;
   logout: () => Promise<any>;
 }
 
@@ -30,7 +33,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const googleLogin = () => {
     const provider = new GoogleAuthProvider()
-    return signInWithRedirect(auth, provider);
+    return signInWithPopup(auth, provider);
+  }
+
+  const twitterLogin = () => {
+    const provider = new TwitterAuthProvider();
+    return signInWithPopup(auth, provider);
   }
 
   const emailLogin = async(email: string, password: string) => {
@@ -64,6 +72,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const value = {
     user,
     googleLogin,
+    twitterLogin,
     emailCreate,
     emailLogin,
     logout
