@@ -1,18 +1,20 @@
-import { Layout, Menu } from 'antd';
+import { AppShell, Navbar, Header, Aside, Footer, Text, Container } from '@mantine/core';
 import { ReactNode } from 'react';
+import CustomHeader from './CustomHeader';
 
 const Page = ({ children }: { children: ReactNode; }) => {
   return (
-    <Layout className="layout" style={{display:"flex", minHeight:"100vh"}}>
-      <Layout.Header>
-        <Menu theme="dark" mode="horizontal" />
-      </Layout.Header>
-      <Layout.Content style={{margin:"auto", background:"#ffffff", maxWidth:"1200px", width:"80vw"}}>
-        <div style={{margin: "20px 50px", flexGrow: 1}}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <AppShell 
+        header={<CustomHeader />}
+        padding="md"
+        fixed={false}
+      >
+        <Container>
           {children}
-        </div>
-      </Layout.Content>
-    </Layout>
+        </Container>
+      </AppShell>
+    </div>
   )
 }
 
