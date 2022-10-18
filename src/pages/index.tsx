@@ -1,6 +1,6 @@
-import type { NextPage } from 'next'
-import { Text } from '@mantine/core';
-import Link from 'next/link'
+import type { NextPage } from "next";
+import { Text } from "@mantine/core";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (
@@ -9,11 +9,11 @@ const Home: NextPage = () => {
         ログイン
       </Text>
     </Link>
-  )
-}
+  );
+};
 
 Home.getInitialProps = async () => {
   return { title: "QuizWis - 競技クイズコンテストサイト" };
-}
+};
 
 export default Home;

@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { auth } from './../firebase'
-import { 
+import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { auth } from "./../firebase";
+import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,7 +10,7 @@ import {
   User,
   signInWithPopup,
   sendPasswordResetEmail,
-} from 'firebase/auth';
+} from "firebase/auth";
 
 type authContextType = {
   user: User | null;
@@ -20,59 +20,59 @@ type authContextType = {
   googleLogin: () => Promise<any>;
   twitterLogin: () => Promise<any>;
   logout: () => Promise<any>;
-}
+};
 
 const AuthContext = createContext<authContextType>({} as authContextType);
 
 export const useAuth = () => {
   return useContext(AuthContext);
-}
+};
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null)
-  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const googleLogin = () => {
-    const provider = new GoogleAuthProvider()
+    const provider = new GoogleAuthProvider();
     return signInWithPopup(auth, provider);
-  }
+  };
 
   const twitterLogin = () => {
     const provider = new TwitterAuthProvider();
     return signInWithPopup(auth, provider);
-  }
+  };
 
-  const emailLogin = async(email: string, password: string) => {
+  const emailLogin = async (email: string, password: string) => {
     try {
       return await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
       console.log(error.message);
       throw new Error(error.message);
     }
-  }
+  };
 
-  const emailCreate = async(email: string, password: string) => {
+  const emailCreate = async (email: string, password: string) => {
     try {
       return await createUserWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
       throw new Error(error.message);
     }
-  }
+  };
 
-  const passwordReset = async(email: string) => {
+  const passwordReset = async (email: string) => {
     sendPasswordResetEmail(auth, email);
-  }
+  };
 
   const logout = () => {
     return signOut(auth);
-  }
+  };
 
-  useEffect (() => {
+  useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
       setUser(user);
       setLoading(false);
-    })
-  }, [])
+    });
+  }, []);
 
   const value = {
     user,
@@ -81,14 +81,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     emailCreate,
     emailLogin,
     passwordReset,
-    logout
-  }
+    logout,
+  };
 
   return (
     <AuthContext.Provider value={value}>
       {loading ? <p>loading...</p> : children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
 export default AuthProvider;
