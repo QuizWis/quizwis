@@ -1,6 +1,6 @@
-import {  Button, ButtonProps } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
-import { useAuth } from '../features/auth/hooks/AuthContext';
+import { Button, ButtonProps } from "@mantine/core";
+import { showNotification } from "@mantine/notifications";
+import { useAuth } from "../features/auth/hooks/AuthContext";
 
 const GoogleButton = (props: ButtonProps) => {
   const { user, googleLogin } = useAuth();
@@ -10,17 +10,25 @@ const GoogleButton = (props: ButtonProps) => {
       await googleLogin();
     } catch (error: any) {
       showNotification({
-        color: 'red',
-        title: 'ログイン失敗',
-        message: 'ログインに失敗しました。',
+        color: "red",
+        title: "ログイン失敗",
+        message: "ログインに失敗しました。",
       });
     }
-  }
+  };
 
-  return <Button leftIcon={<GoogleIcon />} variant="default" color="gray" onClick={handleClick} {...props}/>;
-}
+  return (
+    <Button
+      leftIcon={<GoogleIcon />}
+      variant="default"
+      color="gray"
+      onClick={handleClick}
+      {...props}
+    />
+  );
+};
 
-function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -50,4 +58,4 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   );
 }
 
-export default GoogleButton
+export default GoogleButton;
