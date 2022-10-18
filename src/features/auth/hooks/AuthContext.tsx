@@ -9,12 +9,14 @@ import {
   signOut,
   User,
   signInWithPopup,
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 
 type authContextType = {
   user: User | null;
   emailLogin: (email: string, password: string) => Promise<any>;
   emailCreate: (email: string, password: string) => Promise<any>;
+  passwordReset: (email: string) => Promise<any>;
   googleLogin: () => Promise<any>;
   twitterLogin: () => Promise<any>;
   logout: () => Promise<any>;
@@ -57,6 +59,10 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }
 
+  const passwordReset = async(email: string) => {
+    sendPasswordResetEmail(auth, email);
+  }
+
   const logout = () => {
     return signOut(auth);
   }
@@ -74,6 +80,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     twitterLogin,
     emailCreate,
     emailLogin,
+    passwordReset,
     logout
   }
 

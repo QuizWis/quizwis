@@ -8,10 +8,10 @@ const CustomHeader = () => {
         <Title order={3}>QuizWis</Title>
       </Link>
       <Group>
-        <Link href="/login" passHref>
+        <Link href="/auth/login" passHref>
           <Button variant='outline'>ログイン</Button>
         </Link>
-        <Link href="/register" passHref>
+        <Link href="/auth/register" passHref>
           <Button>新規登録</Button>
         </Link>
       </Group>

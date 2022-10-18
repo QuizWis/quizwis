@@ -1,11 +1,11 @@
 import { useForm } from "@mantine/form"
 import type { NextPage } from 'next'
-import { useAuth } from '../features/auth/hooks/AuthContext'
+import { useAuth } from '../../features/auth/hooks/AuthContext'
 import Link from 'next/link';
-import { PagePropsType } from '../types/PagePropsType';
+import { PagePropsType } from '../../types/PagePropsType';
 import { Button, TextInput, Title, Text, PasswordInput, Paper, Group, Divider, Anchor } from '@mantine/core';
-import GoogleButton from '../components/GoogleButton';
-import TwitterButton from '../components/TwitterButton';
+import GoogleButton from '../../components/GoogleButton';
+import TwitterButton from '../../components/TwitterButton';
 import { showNotification } from '@mantine/notifications';
 
 const RegisterPage: NextPage<PagePropsType> = () => {
@@ -85,7 +85,7 @@ const RegisterPage: NextPage<PagePropsType> = () => {
               登録
             </Button>
           </form>
-          <Link href='/login' passHref>
+          <Link href='/auth/login' passHref>
             <Text align="center" mt="md" size="sm">
               既にアカウントをお持ちの方は
               <Anchor<'a'>>

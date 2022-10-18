@@ -1,11 +1,11 @@
 import { useForm } from "@mantine/form"
 import type { NextPage } from 'next'
-import { useAuth } from '../features/auth/hooks/AuthContext'
+import { useAuth } from '../../features/auth/hooks/AuthContext'
 import Link from 'next/link';
-import { PagePropsType } from '../types/PagePropsType';
+import { PagePropsType } from '../../types/PagePropsType';
 import { Button, TextInput, Title, Text, PasswordInput, Paper, Group, Divider, Anchor } from '@mantine/core';
-import GoogleButton from '../components/GoogleButton';
-import TwitterButton from '../components/TwitterButton';
+import GoogleButton from '../../components/GoogleButton';
+import TwitterButton from '../../components/TwitterButton';
 import { showNotification } from '@mantine/notifications';
 
 const LoginPage: NextPage<PagePropsType> = () => {
@@ -60,7 +60,7 @@ const LoginPage: NextPage<PagePropsType> = () => {
               label="パスワード"
               {...form.getInputProps('password')}
             />
-            <Link href='/register'>
+            <Link href='/auth/forgot_password'>
               <Text align="right" size="xs">
                 <Anchor<'a'>>
                   パスワードを忘れた
@@ -71,7 +71,7 @@ const LoginPage: NextPage<PagePropsType> = () => {
               ログイン
             </Button>
           </form>
-          <Link href='/register' passHref>
+          <Link href='/auth/register' passHref>
             <Text align="center" mt="md" size="sm">
               アカウントをお持ちでない方は
               <Anchor<'a'>>

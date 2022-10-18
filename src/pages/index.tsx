@@ -4,8 +4,8 @@ import Link from 'next/link'
 
 const Home: NextPage = () => {
   return (
-    <Link href="/login" passHref>
-      <Text variant="link" component="a" href="/login">
+    <Link href="/auth/login" passHref>
+      <Text variant="link" component="a" href="/auth/login">
         ログイン
       </Text>
     </Link>
