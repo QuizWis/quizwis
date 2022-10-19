@@ -1,18 +1,19 @@
-import { useForm } from "@mantine/form";
-import type { NextPage } from "next";
-import { useAuth } from "../../features/auth/hooks/AuthContext";
-import Link from "next/link";
-import { PagePropsType } from "../../types/PagePropsType";
-import { Button, TextInput, Title, Text, Paper } from "@mantine/core";
-import { showNotification } from "@mantine/notifications";
+import React from 'react';
+import { useForm } from '@mantine/form';
+import type { NextPage } from 'next';
+import {
+  Button, TextInput, Title, Text, Paper,
+} from '@mantine/core';
+import { showNotification } from '@mantine/notifications';
+import { PagePropsType } from '../../types/PagePropsType';
+import { useAuth } from '../../features/auth/hooks/AuthContext';
 
-const LoginPage: NextPage<PagePropsType> = () => {
+function LoginPage(): NextPage<PagePropsType> {
   const { user, logout, passwordReset } = useAuth();
 
   const form = useForm({
     validate: {
-      email: (value: string) =>
-        /^\S+@\S+$/.test(value) ? null : "正しいメールアドレスを入力してください。",
+      email: (value: string) => (/^\S+@\S+$/.test(value) ? null : '正しいメールアドレスを入力してください。'),
     },
   });
 
@@ -21,9 +22,9 @@ const LoginPage: NextPage<PagePropsType> = () => {
       await passwordReset(values.email);
     } catch (error: any) {
       showNotification({
-        color: "red",
-        title: "送信失敗",
-        message: "パスワードリセット用メールの送信に失敗しました。",
+        color: 'red',
+        title: '送信失敗',
+        message: 'パスワードリセット用メールの送信に失敗しました。',
       });
     }
   };
@@ -32,12 +33,15 @@ const LoginPage: NextPage<PagePropsType> = () => {
     <div>
       {user && (
         <div>
-          <p>{user.email}としてログインしています。</p>
+          <p>
+            {user.email}
+            としてログインしています。
+          </p>
           <Button onClick={logout}>ログアウト</Button>
         </div>
       )}
       {!user && (
-        <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: "360px" }}>
+        <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: '360px' }}>
           <Title order={2} pt="sm">
             パスワードを忘れた
           </Title>
@@ -50,7 +54,7 @@ const LoginPage: NextPage<PagePropsType> = () => {
             <TextInput
               withAsterisk
               label="メールアドレス"
-              {...form.getInputProps("email")}
+              {...form.getInputProps('email')}
               pb="xs"
               mt="md"
             />
@@ -62,10 +66,8 @@ const LoginPage: NextPage<PagePropsType> = () => {
       )}
     </div>
   );
-};
+}
 
-LoginPage.getInitialProps = async () => {
-  return { title: "パスワードを忘れた - QuizWis" };
-};
+LoginPage.getInitialProps = async () => ({ title: 'パスワードを忘れた - QuizWis' });
 
 export default LoginPage;
