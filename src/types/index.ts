@@ -1,2 +1,2 @@
-import "next"
-import "next/app"
+import 'next';
+import 'next/app';

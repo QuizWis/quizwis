@@ -1,12 +1,15 @@
-import { Header, Button, Group, Title } from "@mantine/core";
-import Link from "next/link";
+import {
+  Header, Button, Group, Title,
+} from '@mantine/core';
+import Link from 'next/link';
+import React from 'react';
 
-const CustomHeader = () => {
+function CustomHeader() {
   return (
     <Header
       height="60px"
       px="md"
-      style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
+      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
     >
       <Link href="/" passHref>
         <Title order={3}>QuizWis</Title>
@@ -21,6 +24,6 @@ const CustomHeader = () => {
       </Group>
     </Header>
   );
-};
+}
 
 export default CustomHeader;

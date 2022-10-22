@@ -1,8 +1,8 @@
-import type { NextPage } from "next";
-import { Text } from "@mantine/core";
-import Link from "next/link";
+import { Text } from '@mantine/core';
+import Link from 'next/link';
+import React from 'react';
 
-const Home: NextPage = () => {
+function Home() {
   return (
     <Link href="/auth/login" passHref>
       <Text variant="link" component="a" href="/auth/login">
@@ -10,10 +10,8 @@ const Home: NextPage = () => {
       </Text>
     </Link>
   );
-};
+}
 
-Home.getInitialProps = async () => {
-  return { title: "QuizWis - 競技クイズコンテストサイト" };
-};
+Home.getInitialProps = async () => ({ title: 'QuizWis - 競技クイズコンテストサイト' });
 
 export default Home;
