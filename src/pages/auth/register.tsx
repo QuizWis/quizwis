@@ -1,6 +1,3 @@
-import React from 'react';
-import { useForm } from '@mantine/form';
-import Link from 'next/link';
 import {
   Button,
   TextInput,
@@ -12,19 +9,25 @@ import {
   Divider,
   Anchor,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
-import { useAuth } from '../../features/auth/hooks/AuthContext';
+import Link from 'next/link';
+import React from 'react';
+
 import GoogleButton from '../../components/GoogleButton';
 import TwitterButton from '../../components/TwitterButton';
+import { useAuth } from '../../features/auth/hooks/AuthContext';
 
-function RegisterPage(): React.FC {
+function RegisterPage() {
   const { user, logout, emailCreate } = useAuth();
 
   function PasswordValidation(value: string) {
     if (!value) {
       return 'パスワードは必須です。';
+    // eslint-disable-next-line react/destructuring-assignment
     } if (value.length < 6) {
       return 'パスワードは6文字以上にしてください。';
+    // eslint-disable-next-line react/destructuring-assignment
     } if (value.length > 128) {
       return 'パスワードは128文字以下にしてください。';
     } if (!/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\d)[!-~]{8,100}$/.test(value)) {
@@ -37,14 +40,15 @@ function RegisterPage(): React.FC {
     validate: {
       email: (value: string) => (/^\S+@\S+$/.test(value) ? null : '正しいメールアドレスを入力してください。'),
       password: (value: string) => PasswordValidation(value),
-      passwordCheck: (value: string, values: any) => (value === values.password ? null : 'パスワードが一致しません。'),
+      passwordCheck: (value, values) => (value === values.password ? null : 'パスワードが一致しません。'),
     },
   });
 
   const onLogin = async (values: { email: string; password: string }) => {
     try {
       await emailCreate(values.email, values.password);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      // TODO: エラーの種類によってメッセージを変える
       showNotification({
         color: 'red',
         title: 'アカウント作成失敗',

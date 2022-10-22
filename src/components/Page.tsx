@@ -1,15 +1,18 @@
-import { AppShell, Navbar, Header, Aside, Footer, Text, Container } from "@mantine/core";
-import { ReactNode } from "react";
-import CustomHeader from "./CustomHeader";
+import {
+  AppShell, Container,
+} from '@mantine/core';
+import React, { ReactNode } from 'react';
 
-const Page = ({ children }: { children: ReactNode }) => {
+import CustomHeader from './CustomHeader';
+
+function Page({ children }: { children: ReactNode }) {
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
       <AppShell header={<CustomHeader />} padding="md" fixed={false}>
         <Container>{children}</Container>
       </AppShell>
     </div>
   );
-};
+}
 
 export default Page;

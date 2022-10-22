@@ -19,6 +19,31 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
-    ]
+        "@typescript-eslint",
+        "import"
+    ],
+    "rules": {
+        "react/jsx-props-no-spreading": "off",
+        "import/order": [
+            "error",
+            {
+                "groups": [
+                    "builtin", // node "builtin" のモジュール
+                    "external", // npm install したパッケージ
+                    "internal", // パス設定したモジュール
+                    [
+                        "parent",
+                        "sibling"
+                    ], // 親階層と子階層のファイル
+                    "index", // 同階層のファイル
+                    "object", // object-imports
+                    "type" // 型のみインポート
+                ],
+                "newlines-between": "always", // グループごとに空行を挿入
+                "alphabetize": {
+                    "order": "asc" // アルファベット順
+                }
+            }
+        ]
+    }
 }

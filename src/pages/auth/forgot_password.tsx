@@ -1,14 +1,13 @@
-import React from 'react';
-import { useForm } from '@mantine/form';
-import type { NextPage } from 'next';
 import {
   Button, TextInput, Title, Text, Paper,
 } from '@mantine/core';
+import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
-import { PagePropsType } from '../../types/PagePropsType';
+import React from 'react';
+
 import { useAuth } from '../../features/auth/hooks/AuthContext';
 
-function LoginPage(): NextPage<PagePropsType> {
+function LoginPage() {
   const { user, logout, passwordReset } = useAuth();
 
   const form = useForm({
@@ -20,7 +19,8 @@ function LoginPage(): NextPage<PagePropsType> {
   const onLogin = async (values: { email: string }) => {
     try {
       await passwordReset(values.email);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      // TODO: エラーの種類によってメッセージを変える
       showNotification({
         color: 'red',
         title: '送信失敗',
