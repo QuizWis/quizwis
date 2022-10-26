@@ -69,7 +69,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const passwordReset = async (email: string) => {
-    sendPasswordResetEmail(auth, email);
+    const actionCodeSettings = {
+      url: `http://localhost:3000/?email=${email}`,
+    };
+    await sendPasswordResetEmail(auth, email, actionCodeSettings);
   };
 
   const logout = () => signOut(auth);

@@ -53,7 +53,7 @@ function LoginPage() {
         </div>
       )}
       {!user && (
-        <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: '360px' }}>
+        <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: '480px' }}>
           <Title order={2} pt="sm">
             ログイン
           </Title>
