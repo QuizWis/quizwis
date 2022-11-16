@@ -8,14 +8,15 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
 import auth from '../../features/auth/firebase';
+import { WithGetAccessControl } from '../../types';
 
-function ActionPage() {
+const ActionPage: WithGetAccessControl<React.FC> = () => {
   const [actionMode, setActionMode] = React.useState('');
   const [actionCode, setActionCode] = React.useState('');
 
   const router = useRouter();
 
-  function PasswordValidation(value: string) {
+  const PasswordValidation = (value: string) => {
     if (!value) {
       return 'パスワードは必須です。';
     // eslint-disable-next-line react/destructuring-assignment
@@ -28,7 +29,7 @@ function ActionPage() {
       return 'パスワードには英小文字と大文字、数字を含めてください。';
     }
     return null;
-  }
+  };
 
   const form = useForm({
     validate: {
@@ -46,9 +47,7 @@ function ActionPage() {
   }, []);
 
   const onResetPassword = async (values: { password: string }) => {
-    if (actionMode !== 'resetPassword') {
-      throw new Error('不正なURLです。');
-    } else if (actionCode === '') {
+    if (actionMode !== 'resetPassword' || actionCode === '') {
       throw new Error('不正なURLです。');
     }
     verifyPasswordResetCode(auth, actionCode)
@@ -99,6 +98,8 @@ function ActionPage() {
       </>
     </Paper>
   );
-}
+};
+
+ActionPage.getAccessControl = () => null;
 
 export default ActionPage;

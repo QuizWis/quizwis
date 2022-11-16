@@ -6,8 +6,9 @@ import { showNotification } from '@mantine/notifications';
 import React from 'react';
 
 import { useAuth } from '../../features/auth/hooks/AuthContext';
+import { WithGetAccessControl } from '../../types';
 
-function LoginPage() {
+const LoginPage: WithGetAccessControl<React.FC> = () => {
   const { user, logout, passwordReset } = useAuth();
   const [sended, setSended] = React.useState(false);
 
@@ -90,7 +91,7 @@ function LoginPage() {
       )}
     </div>
   );
-}
+};
 
 LoginPage.getInitialProps = async () => ({ title: 'パスワードを忘れた - QuizWis' });
 

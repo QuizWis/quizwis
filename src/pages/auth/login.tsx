@@ -17,8 +17,9 @@ import React from 'react';
 import GoogleButton from '../../components/GoogleButton';
 import TwitterButton from '../../components/TwitterButton';
 import { useAuth } from '../../features/auth/hooks/AuthContext';
+import { WithGetAccessControl } from '../../types';
 
-function LoginPage() {
+const LoginPage: WithGetAccessControl<React.FC> = () => {
   const { user, logout, emailLogin } = useAuth();
 
   const form = useForm({
@@ -89,7 +90,7 @@ function LoginPage() {
       )}
     </div>
   );
-}
+};
 
 LoginPage.getInitialProps = async () => ({ title: 'ログイン - QuizWis' });
 
