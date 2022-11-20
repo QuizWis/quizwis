@@ -1,5 +1,3 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { auth } from "./../firebase";
 import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
@@ -10,25 +8,29 @@ import {
   User,
   signInWithPopup,
   sendPasswordResetEmail,
-} from "firebase/auth";
+  UserCredential,
+} from 'firebase/auth';
+import React, {
+  createContext, useContext, useState, useEffect, ReactNode,
+} from 'react';
 
-type authContextType = {
+import { auth } from '../firebase';
+
+type AuthContextType = {
   user: User | null;
-  emailLogin: (email: string, password: string) => Promise<any>;
-  emailCreate: (email: string, password: string) => Promise<any>;
-  passwordReset: (email: string) => Promise<any>;
-  googleLogin: () => Promise<any>;
-  twitterLogin: () => Promise<any>;
-  logout: () => Promise<any>;
+  emailLogin: (email: string, password: string) => Promise<UserCredential>;
+  emailCreate: (email: string, password: string) => Promise<UserCredential>;
+  passwordReset: (email: string) => Promise<void>;
+  googleLogin: () => Promise<UserCredential>;
+  twitterLogin: () => Promise<UserCredential>;
+  logout: () => Promise<void>;
 };
 
-const AuthContext = createContext<authContextType>({} as authContextType);
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
-const AuthProvider = ({ children }: { children: ReactNode }) => {
+function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -46,7 +48,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       return await signInWithEmailAndPassword(auth, email, password);
     } catch (error: any) {
-      console.log(error.message);
       throw new Error(error.message);
     }
   };
@@ -63,16 +64,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     sendPasswordResetEmail(auth, email);
   };
 
-  const logout = () => {
-    return signOut(auth);
-  };
+  const logout = () => signOut(auth);
 
-  useEffect(() => {
-    return onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-  }, []);
+  useEffect(() => onAuthStateChanged(auth, (user) => {
+    setUser(user);
+    setLoading(false);
+  }), []);
 
   const value = {
     user,
@@ -89,6 +86,6 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       {loading ? <p>loading...</p> : children}
     </AuthContext.Provider>
   );
-};
+}
 
 export default AuthProvider;
