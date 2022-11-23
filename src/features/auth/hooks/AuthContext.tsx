@@ -30,7 +30,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const useAuth = () => useContext(AuthContext);
 
-function AuthProvider({ children }: { children: ReactNode }) {
+const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -97,6 +97,6 @@ function AuthProvider({ children }: { children: ReactNode }) {
       {loading ? <p>loading...</p> : children}
     </AuthContext.Provider>
   );
-}
+};
 
 export default AuthProvider;

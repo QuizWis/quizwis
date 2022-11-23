@@ -5,7 +5,7 @@ import React from 'react';
 import { useAuth } from '../features/auth/hooks/AuthContext';
 import GoogleIcon from './GoogleIcon';
 
-function GoogleButton(props: ButtonProps) {
+const GoogleButton = (props: ButtonProps) => {
   const { googleLogin } = useAuth();
 
   const handleClick = async () => {
@@ -29,6 +29,6 @@ function GoogleButton(props: ButtonProps) {
       {...props}
     />
   );
-}
+};
 
 export default GoogleButton;

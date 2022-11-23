@@ -5,7 +5,7 @@ import React from 'react';
 
 import { useAuth } from '../features/auth/hooks/AuthContext';
 
-function TwitterButton(props: ButtonProps & React.ComponentPropsWithoutRef<'a'>) {
+const TwitterButton = (props: ButtonProps & React.ComponentPropsWithoutRef<'a'>) => {
   const { twitterLogin } = useAuth();
 
   const handleClick = async () => {
@@ -30,6 +30,6 @@ function TwitterButton(props: ButtonProps & React.ComponentPropsWithoutRef<'a'>)
       onClick={handleClick}
     />
   );
-}
+};
 
 export default TwitterButton;
