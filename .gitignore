@@ -38,3 +38,4 @@ next-env.d.ts
 # docker
 dev.Dockerfile
 docker-compose.dev.yml
+/db

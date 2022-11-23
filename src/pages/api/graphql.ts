@@ -1,49 +1,30 @@
-import { ApolloServer, gql } from 'apollo-server-micro';
+import { ServerResponse } from 'http';
 
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { ApolloServer } from 'apollo-server-micro';
+import { MicroRequest } from 'apollo-server-micro/dist/types';
+import Cors from 'micro-cors';
 
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+import { createContext } from '../../graphql/context';
+import { resolvers } from '../../graphql/resolvers';
+import schema from '../../graphql/schema';
 
-const resolvers = {
-  Query: {
-    hello: () => 'Hello World',
-  },
-};
+const cors = Cors();
 
-const apolloServer = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
+const apolloServer = new ApolloServer({ schema, resolvers, context: createContext });
 
 const startServer = apolloServer.start();
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse,
-) {
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader(
-    'Access-Control-Allow-Origin',
-    'https://studio.apollographql.com',
-  );
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept',
-  );
+export default cors(async (req: MicroRequest, res: ServerResponse) => {
   if (req.method === 'OPTIONS') {
     res.end();
     return false;
   }
-
   await startServer;
+
   await apolloServer.createHandler({
     path: '/api/graphql',
   })(req, res);
-}
+});
 
 export const config = {
   api: {

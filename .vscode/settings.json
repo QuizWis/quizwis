@@ -1,7 +1,8 @@
 {
     "cSpell.words": [
         "linebreak",
-        "mantine"
+        "mantine",
+        "typegen"
     ],
     "files.eol": "\n",
     "eslint.alwaysShowStatus": true,
