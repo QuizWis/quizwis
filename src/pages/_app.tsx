@@ -2,15 +2,42 @@ import '../styles/globals.css';
 import { Global, MantineProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import Head from 'next/head';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 
 import Page from '../components/Page';
 import AuthProvider from '../features/auth/hooks/AuthContext';
+import { GetAccessControl } from '../types';
 import { PagePropsType } from '../types/PagePropsType';
 
 import type { AppProps } from 'next/app';
 
-function MyApp({ Component, pageProps }: AppProps<PagePropsType>) {
+const useAccessControl = (getAccessControl: GetAccessControl) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const control = async () => {
+      const accessControl = await getAccessControl();
+      if (!accessControl) return;
+      router[accessControl.type](accessControl.destination);
+    };
+    control();
+  }, [router]);
+};
+
+const accessControl = () => {
+  throw new Error('getAccessControl is not implemented');
+};
+
+type Props<T> = AppProps<T> & {
+  Component: {
+    getAccessControl?: GetAccessControl;
+  }
+};
+
+const MyApp: React.FC<Props<PagePropsType>> = ({ Component, pageProps }) => {
+  const { getAccessControl = accessControl } = Component;
+  useAccessControl(getAccessControl);
   return (
     <MantineProvider
       withGlobalStyles
@@ -40,6 +67,6 @@ function MyApp({ Component, pageProps }: AppProps<PagePropsType>) {
       </NotificationsProvider>
     </MantineProvider>
   );
-}
+};
 
 export default MyApp;

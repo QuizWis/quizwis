@@ -1,5 +1,5 @@
-import { getApps, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getApps, initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -14,4 +14,5 @@ if (!getApps().length) {
   initializeApp(firebaseConfig);
 }
 
-export const auth = getAuth();
+const auth = getAuth();
+export default auth;

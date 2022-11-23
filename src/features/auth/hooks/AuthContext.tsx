@@ -1,5 +1,3 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { auth } from "./../firebase";
 import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
@@ -10,25 +8,29 @@ import {
   User,
   signInWithPopup,
   sendPasswordResetEmail,
-} from "firebase/auth";
+  UserCredential,
+} from 'firebase/auth';
+import React, {
+  createContext, useContext, useState, useEffect, ReactNode, useMemo,
+} from 'react';
 
-type authContextType = {
+import auth from '../firebase';
+
+type AuthContextType = {
   user: User | null;
-  emailLogin: (email: string, password: string) => Promise<any>;
-  emailCreate: (email: string, password: string) => Promise<any>;
-  passwordReset: (email: string) => Promise<any>;
-  googleLogin: () => Promise<any>;
-  twitterLogin: () => Promise<any>;
-  logout: () => Promise<any>;
+  emailLogin: (email: string, password: string) => Promise<UserCredential>;
+  emailCreate: (email: string, password: string) => Promise<UserCredential>;
+  passwordReset: (email: string) => Promise<void>;
+  googleLogin: () => Promise<UserCredential>;
+  twitterLogin: () => Promise<UserCredential>;
+  logout: () => Promise<void>;
 };
 
-const AuthContext = createContext<authContextType>({} as authContextType);
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);
 
-const AuthProvider = ({ children }: { children: ReactNode }) => {
+function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -45,36 +47,42 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const emailLogin = async (email: string, password: string) => {
     try {
       return await signInWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      console.log(error.message);
-      throw new Error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error('unknown error');
+      }
     }
   };
 
   const emailCreate = async (email: string, password: string) => {
     try {
       return await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      throw new Error(error.message);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      } else {
+        throw new Error('unknown error');
+      }
     }
   };
 
   const passwordReset = async (email: string) => {
-    sendPasswordResetEmail(auth, email);
+    const actionCodeSettings = {
+      url: `http://localhost:3000/?email=${email}`,
+    };
+    await sendPasswordResetEmail(auth, email, actionCodeSettings);
   };
 
-  const logout = () => {
-    return signOut(auth);
-  };
+  const logout = () => signOut(auth);
 
-  useEffect(() => {
-    return onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-  }, []);
+  useEffect(() => onAuthStateChanged(auth, (newUser) => {
+    setUser(newUser);
+    setLoading(false);
+  }), []);
 
-  const value = {
+  const value = useMemo(() => ({
     user,
     googleLogin,
     twitterLogin,
@@ -82,13 +90,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     emailLogin,
     passwordReset,
     logout,
-  };
+  }), [user]);
 
   return (
     <AuthContext.Provider value={value}>
       {loading ? <p>loading...</p> : children}
     </AuthContext.Provider>
   );
-};
+}
 
 export default AuthProvider;

@@ -17,11 +17,12 @@ import React from 'react';
 import GoogleButton from '../../components/GoogleButton';
 import TwitterButton from '../../components/TwitterButton';
 import { useAuth } from '../../features/auth/hooks/AuthContext';
+import { WithGetAccessControl } from '../../types';
 
-function RegisterPage() {
+const RegisterPage: WithGetAccessControl<React.FC> = () => {
   const { user, logout, emailCreate } = useAuth();
 
-  function PasswordValidation(value: string) {
+  const PasswordValidation = (value: string) => {
     if (!value) {
       return 'パスワードは必須です。';
     // eslint-disable-next-line react/destructuring-assignment
@@ -34,7 +35,7 @@ function RegisterPage() {
       return 'パスワードには英小文字と大文字、数字を含めてください。';
     }
     return null;
-  }
+  };
 
   const form = useForm({
     validate: {
@@ -69,7 +70,7 @@ function RegisterPage() {
         </div>
       )}
       {!user && (
-        <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: '360px' }}>
+        <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: '480px' }}>
           <Title order={2} pt="sm">
             新規登録
           </Title>
@@ -106,7 +107,7 @@ function RegisterPage() {
       )}
     </div>
   );
-}
+};
 
 RegisterPage.getInitialProps = async () => ({ title: '新規登録 - QuizWis' });
 
