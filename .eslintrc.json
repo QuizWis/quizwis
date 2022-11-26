@@ -32,6 +32,7 @@
                 ]
             }
         ],
+        "import/prefer-default-export": "off",
         "import/order": [
             "error",
             {
@@ -45,7 +46,7 @@
                     ], // 親階層と子階層のファイル
                     "index", // 同階層のファイル
                     "object", // object-imports
-                    "type" // 型�Eみインポ�EチE
+                    "type" // 型�Eみインポ�EチE
                 ],
                 "newlines-between": "always", // グループごとに空行を挿入
                 "alphabetize": {
