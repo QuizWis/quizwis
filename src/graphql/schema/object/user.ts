@@ -14,7 +14,8 @@ export const user = objectType({
     t.field(User.updatedAt);
 
     t.nonNull.id('id', {
-      resolve: (parent, _args, _ctx) => Buffer.from(`User:${parent.id}`).toString('base64'),
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      resolve: (parent, _args, _ctx) => Buffer.from(`User:${parent.databaseId}`).toString('base64'),
     });
   },
 });

@@ -18,6 +18,7 @@ export default cors(async (req, res) => {
   await apolloServer.createHandler({
     path: '/api/graphql',
   })(req, res);
+  return true;
 });
 
 export const config = {

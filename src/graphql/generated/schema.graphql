@@ -14,7 +14,7 @@ scalar DateTime
 
 type Mutation {
   createUser(email: String!, name: String!): User
-  updateUser(email: String, id: BigInt!, name: String): User
+  updateUser(databaseId: BigInt!, email: String, name: String): User
 }
 
 interface Node {
@@ -22,7 +22,8 @@ interface Node {
 }
 
 type Query {
-  user(userId: BigInt!): User
+  node(id: String!): Node
+  user(databaseId: BigInt!): User
 }
 
 type User implements Node {

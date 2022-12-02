@@ -15,4 +15,6 @@ const Home: WithGetAccessControl<NextPage> = () => (
 
 Home.getInitialProps = async () => ({ title: 'QuizWis - 競技クイズコンテストサイト' });
 
+Home.getAccessControl = () => (null);
+
 export default Home;

@@ -1,17 +1,20 @@
 import { join } from 'path';
 
 import { GraphQLBigInt, GraphQLDateTime } from 'graphql-scalars';
-import { asNexusMethod, makeSchema } from 'nexus';
+import { asNexusMethod, fieldAuthorizePlugin, makeSchema } from 'nexus';
 
 import * as types from './schema/index';
 
 const schema = makeSchema({
   features: {
     abstractTypeStrategies: {
-      resolveType: true,
-      __typename: false,
+      resolveType: false,
+      __typename: true,
     },
   },
+  plugins: [
+    fieldAuthorizePlugin(),
+  ],
   types: [
     types,
     asNexusMethod(GraphQLBigInt, 'bigint', 'bigint'),
