@@ -34,14 +34,28 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const googleLogin = () => {
+  const googleLogin = async () => {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    try {
+      return await signInWithPopup(auth, provider);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+      throw new Error('unknown error');
+    }
   };
 
-  const twitterLogin = () => {
+  const twitterLogin = async () => {
     const provider = new TwitterAuthProvider();
-    return signInWithPopup(auth, provider);
+    try {
+      return await signInWithPopup(auth, provider);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+      throw new Error('unknown error');
+    }
   };
 
   const emailLogin = async (email: string, password: string) => {
@@ -50,9 +64,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         throw new Error(error.message);
-      } else {
-        throw new Error('unknown error');
       }
+      throw new Error('unknown error');
     }
   };
 
@@ -62,9 +75,8 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     } catch (error: unknown) {
       if (error instanceof Error) {
         throw new Error(error.message);
-      } else {
-        throw new Error('unknown error');
       }
+      throw new Error('unknown error');
     }
   };
 

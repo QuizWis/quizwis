@@ -11,7 +11,7 @@ export const node = queryField('node', {
     const idStr = Buffer.from(id, 'base64').toString();
     const [type, databaseId] = idStr.split(':');
     if (type === 'User') {
-      return ctx.prisma.user.findUnique({ where: { databaseId: Number(databaseId) } })
+      return ctx.prisma.user.findUnique({ where: { databaseId } })
         .then((res) => (res ? { ...res, __typename: 'User' as const } : null))
         .catch(() => null);
     }

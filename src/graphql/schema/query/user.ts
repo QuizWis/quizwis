@@ -3,7 +3,7 @@ import { arg, nonNull, queryField } from 'nexus';
 export const getUser = queryField('user', {
   type: 'User',
   args: {
-    databaseId: nonNull(arg({ type: 'BigInt' })),
+    databaseId: nonNull(arg({ type: 'String' })),
   },
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   authorize: (_root, _args, _ctx) => (true),

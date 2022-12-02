@@ -13,8 +13,8 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createUser(email: String!, name: String!): User
-  updateUser(databaseId: BigInt!, email: String, name: String): User
+  createUser(databaseId: String!, email: String!, name: String!): User
+  updateUser(databaseId: String!, email: String, name: String): User
 }
 
 interface Node {
@@ -23,12 +23,12 @@ interface Node {
 
 type Query {
   node(id: String!): Node
-  user(databaseId: BigInt!): User
+  user(databaseId: String!): User
 }
 
 type User implements Node {
   createdAt: DateTime!
-  databaseId: BigInt!
+  databaseId: String!
   email: String!
   id: ID!
   name: String!

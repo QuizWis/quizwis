@@ -15,9 +15,9 @@ datasource db {
 }
 
 model User {
-  databaseId BigInt   @id @default(autoincrement())
+  databaseId String   @id // firebaseと揃える（都合がいいので）
   name       String
-  email      String
+  email      String   @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
