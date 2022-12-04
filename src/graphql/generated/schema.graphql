@@ -28,8 +28,8 @@ type Query {
 
 type User implements Node {
   createdAt: DateTime!
-  databaseId: String!
-  email: String!
+  databaseId: ID!
+  email: String
   id: ID!
   name: String!
   updatedAt: DateTime!

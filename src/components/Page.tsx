@@ -5,6 +5,9 @@ import React, { ReactNode } from 'react';
 
 import CustomHeader from './CustomHeader';
 
+/**
+ * 見た目的なページのベース
+ */
 const Page = ({ children }: { children: ReactNode }) => (
   <div style={{ display: 'flex', flexDirection: 'column' }}>
     <AppShell header={<CustomHeader />} padding="md" fixed={false}>

@@ -5,6 +5,10 @@ import React from 'react';
 
 import { useAuth } from '../features/auth/hooks/AuthContext';
 
+/**
+ * 押すとTwitterアカウントログイン処理が走るボタン。
+ * @param props mantine標準のButtonPropsを継承。
+*/
 const TwitterButton = (props: ButtonProps & React.ComponentPropsWithoutRef<'a'>) => {
   const { twitterLogin } = useAuth();
 
@@ -12,7 +16,7 @@ const TwitterButton = (props: ButtonProps & React.ComponentPropsWithoutRef<'a'>)
     try {
       await twitterLogin();
     } catch (error: unknown) {
-      // TODO: エラーの種類によってメッセージを変える
+      // TODO: ちゃんとエラー処理する
       showNotification({
         color: 'red',
         title: 'ログイン失敗',

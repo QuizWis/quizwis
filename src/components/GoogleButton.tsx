@@ -5,6 +5,10 @@ import React from 'react';
 import { useAuth } from '../features/auth/hooks/AuthContext';
 import GoogleIcon from './GoogleIcon';
 
+/**
+ * 押すとGoogleアカウントログイン処理が走るボタン。
+ * @param props mantine標準のButtonPropsを継承。
+*/
 const GoogleButton = (props: ButtonProps) => {
   const { googleLogin } = useAuth();
 
@@ -12,6 +16,7 @@ const GoogleButton = (props: ButtonProps) => {
     try {
       await googleLogin();
     } catch (error: unknown) {
+      // TODO: ちゃんとエラー処理する
       showNotification({
         color: 'red',
         title: 'ログイン失敗',

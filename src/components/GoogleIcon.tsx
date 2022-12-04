@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Googleアイコン
+ */
 const GoogleIcon = (props: React.ComponentPropsWithoutRef<'svg'>) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

@@ -11,6 +11,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
+import { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
@@ -19,8 +20,8 @@ import TwitterButton from '../../components/TwitterButton';
 import { useAuth } from '../../features/auth/hooks/AuthContext';
 import { WithGetAccessControl } from '../../types';
 
-const LoginPage: WithGetAccessControl<React.FC> = () => {
-  const { user, logout, emailLogin } = useAuth();
+const LoginPage: WithGetAccessControl<NextPage> = () => {
+  const { userData, logout, emailLogin } = useAuth();
 
   const form = useForm({
     validate: {
@@ -44,16 +45,16 @@ const LoginPage: WithGetAccessControl<React.FC> = () => {
 
   return (
     <div>
-      {user && (
+      {userData && (
         <div>
           <p>
-            {user.email}
+            {userData.email}
             としてログインしています。
           </p>
           <Button onClick={logout}>ログアウト</Button>
         </div>
       )}
-      {!user && (
+      {!userData && (
         <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: '480px' }}>
           <Title order={2} pt="sm">
             ログイン
@@ -93,5 +94,7 @@ const LoginPage: WithGetAccessControl<React.FC> = () => {
 };
 
 LoginPage.getInitialProps = async () => ({ title: 'ログイン - QuizWis' });
+
+LoginPage.getAccessControl = () => null;
 
 export default LoginPage;

@@ -11,6 +11,7 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
+import { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
@@ -19,8 +20,8 @@ import TwitterButton from '../../components/TwitterButton';
 import { useAuth } from '../../features/auth/hooks/AuthContext';
 import { WithGetAccessControl } from '../../types';
 
-const RegisterPage: WithGetAccessControl<React.FC> = () => {
-  const { user, logout, emailCreate } = useAuth();
+const RegisterPage: WithGetAccessControl<NextPage> = () => {
+  const { userData, logout, emailCreate } = useAuth();
 
   const PasswordValidation = (value: string) => {
     if (!value) {
@@ -60,16 +61,16 @@ const RegisterPage: WithGetAccessControl<React.FC> = () => {
 
   return (
     <div>
-      {user && (
+      {userData && (
         <div>
           <p>
-            {user.email}
+            {userData.email}
             としてログインしています。
           </p>
           <Button onClick={logout}>ログアウト</Button>
         </div>
       )}
-      {!user && (
+      {!userData && (
         <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: '480px' }}>
           <Title order={2} pt="sm">
             新規登録
@@ -110,5 +111,7 @@ const RegisterPage: WithGetAccessControl<React.FC> = () => {
 };
 
 RegisterPage.getInitialProps = async () => ({ title: '新規登録 - QuizWis' });
+
+RegisterPage.getAccessControl = () => null;
 
 export default RegisterPage;
