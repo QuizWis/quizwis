@@ -8,8 +8,8 @@ import React, { useEffect } from 'react';
 
 import Page from '../components/Page';
 import AuthProvider from '../features/auth/hooks/AuthContext';
-import { GetAccessControl } from '../types';
 import apolloClient from '../lib/apollo';
+import { GetAccessControl } from '../types';
 import { PagePropsType } from '../types/PagePropsType';
 
 import type { AppProps } from 'next/app';

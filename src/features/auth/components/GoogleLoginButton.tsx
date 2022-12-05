@@ -1,21 +1,25 @@
 import { Button, ButtonProps } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
 import React from 'react';
 
-import { useAuth } from '../features/auth/hooks/AuthContext';
+import showErrorNotification from '../../../functions/showErrorNotification';
+import { useAuth } from '../hooks/AuthContext';
 import GoogleIcon from './GoogleIcon';
 
-function GoogleButton(props: ButtonProps) {
+/**
+ * 押すとGoogleアカウントログイン処理が走るボタン。
+ * @param props mantine標準のButtonPropsを継承。
+*/
+const GoogleLoginButton = (props: ButtonProps) => {
   const { googleLogin } = useAuth();
 
   const handleClick = async () => {
     try {
       await googleLogin();
+      // TODO: マイページ的なものに飛ばす
     } catch (error: unknown) {
-      showNotification({
-        color: 'red',
+      showErrorNotification({
         title: 'ログイン失敗',
-        message: 'ログインに失敗しました。',
+        error,
       });
     }
   };
@@ -29,6 +33,6 @@ function GoogleButton(props: ButtonProps) {
       {...props}
     />
   );
-}
+};
 
-export default GoogleButton;
+export default GoogleLoginButton;

@@ -4,26 +4,28 @@ import {
 import Link from 'next/link';
 import React from 'react';
 
-function CustomHeader() {
-  return (
-    <Header
-      height="60px"
-      px="md"
-      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-    >
-      <Link href="/" passHref>
-        <Title order={3}>QuizWis</Title>
-      </Link>
-      <Group>
-        <Link href="/auth/login" passHref>
-          <Button variant="outline">ログイン</Button>
-        </Link>
-        <Link href="/auth/register" passHref>
-          <Button>新規登録</Button>
-        </Link>
-      </Group>
-    </Header>
-  );
-}
+/**
+ * 独自定義のヘッダー。
+ * 現状全ページに標準で表示される。
+ */
+const CustomHeader = () => (
+  <Header
+    height="60px"
+    px="md"
+    style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+  >
+    <Link href="/" passHref>
+      <Title order={3}>QuizWis</Title>
+    </Link>
+    <Group>
+      <Button variant="outline" color="blue" component="a" href="/auth/login">
+        ログイン
+      </Button>
+      <Button variant="filled" color="blue" component="a" href="/auth/register">
+        新規登録
+      </Button>
+    </Group>
+  </Header>
+);
 
 export default CustomHeader;

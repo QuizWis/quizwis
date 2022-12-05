@@ -1,22 +1,25 @@
 import { Button, ButtonProps } from '@mantine/core';
 import { TwitterIcon } from '@mantine/ds';
-import { showNotification } from '@mantine/notifications';
 import React from 'react';
 
-import { useAuth } from '../features/auth/hooks/AuthContext';
+import showErrorNotification from '../../../functions/showErrorNotification';
+import { useAuth } from '../hooks/AuthContext';
 
-function TwitterButton(props: ButtonProps & React.ComponentPropsWithoutRef<'a'>) {
+/**
+ * 押すとTwitterアカウントログイン処理が走るボタン。
+ * @param props mantine標準のButtonPropsを継承。
+*/
+const TwitterLoginButton = (props: ButtonProps & React.ComponentPropsWithoutRef<'a'>) => {
   const { twitterLogin } = useAuth();
 
   const handleClick = async () => {
     try {
       await twitterLogin();
+      // TODO: マイページ的なものに飛ばす
     } catch (error: unknown) {
-      // TODO: エラーの種類によってメッセージを変える
-      showNotification({
-        color: 'red',
+      showErrorNotification({
         title: 'ログイン失敗',
-        message: 'ログインに失敗しました。',
+        error,
       });
     }
   };
@@ -30,6 +33,6 @@ function TwitterButton(props: ButtonProps & React.ComponentPropsWithoutRef<'a'>)
       onClick={handleClick}
     />
   );
-}
+};
 
-export default TwitterButton;
+export default TwitterLoginButton;
