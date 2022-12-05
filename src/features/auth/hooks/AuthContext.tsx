@@ -9,6 +9,8 @@ import {
   signInWithPopup,
   sendPasswordResetEmail,
   UserCredential,
+  verifyPasswordResetCode,
+  confirmPasswordReset,
 } from 'firebase/auth';
 import React, {
   createContext, useContext, useState, useEffect, ReactNode, useMemo,
@@ -23,7 +25,8 @@ type AuthContextType = {
   userData: AuthContextUserType | null;
   emailLogin: (email: string, password: string) => Promise<UserCredential>;
   emailCreate: (email: string, password: string) => Promise<UserCredential>;
-  passwordReset: (email: string) => Promise<void>;
+  sendPasswordReset: (email: string) => Promise<void>;
+  passwordReset: (actionCode: string, newPassword: string) => Promise<void>;
   googleLogin: () => Promise<UserCredential>;
   twitterLogin: () => Promise<UserCredential>;
   logout: () => Promise<void>;
@@ -64,13 +67,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const checkDatabase = async (checkUser: User) => {
     const res = await loadLoginUser({ variables: { databaseId: checkUser.uid } });
     if (!res.data?.user) {
-      if (!checkUser.displayName) { throw new Error('メールアドレスが取得できませんでした。'); }
+      if (!checkUser.displayName && !checkUser.email) { throw new Error('メールアドレスが取得できませんでした。'); }
       await createUser({
         variables:
           {
             databaseId: checkUser.uid,
             email: checkUser.email || '',
-            name: checkUser.displayName.split('@')[0],
+            name: checkUser.displayName?.split('@')[0] || checkUser.email?.split('@')[0] || '',
           },
       });
     }
@@ -106,7 +109,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const emailLogin = async (email: string, password: string) => {
     try {
-      return await signInWithEmailAndPassword(auth, email, password);
+      const ret = await signInWithEmailAndPassword(auth, email, password);
+      await checkDatabase(ret.user);
+      return ret;
     } catch (error: unknown) {
       if (error instanceof Error) {
         throw new Error(error.message);
@@ -128,11 +133,16 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const passwordReset = async (email: string) => {
+  const sendPasswordReset = async (email: string) => {
     const actionCodeSettings = {
-      url: `http://localhost:3000/?email=${email}`,
+      url: 'http://localhost:3000/login',
     };
     await sendPasswordResetEmail(auth, email, actionCodeSettings);
+  };
+
+  const passwordReset = async (actionCode: string, newPassword: string) => {
+    verifyPasswordResetCode(auth, actionCode);
+    return confirmPasswordReset(auth, actionCode, newPassword);
   };
 
   const logout = () => signOut(auth);
@@ -149,6 +159,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     twitterLogin,
     emailCreate,
     emailLogin,
+    sendPasswordReset,
     passwordReset,
     logout,
   }), [user, userData]);

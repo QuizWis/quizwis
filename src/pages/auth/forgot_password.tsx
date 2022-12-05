@@ -3,13 +3,14 @@ import {
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
+import { NextPage } from 'next';
 import React from 'react';
 
 import { useAuth } from '../../features/auth/hooks/AuthContext';
 import { WithGetAccessControl } from '../../types';
 
-const LoginPage: WithGetAccessControl<React.FC> = () => {
-  const { user, logout, passwordReset } = useAuth();
+const LoginPage: WithGetAccessControl<NextPage> = () => {
+  const { userData, logout, sendPasswordReset } = useAuth();
   const [sended, setSended] = React.useState(false);
 
   const form = useForm({
@@ -20,7 +21,7 @@ const LoginPage: WithGetAccessControl<React.FC> = () => {
 
   const onLogin = async (values: { email: string }) => {
     try {
-      await passwordReset(values.email);
+      await sendPasswordReset(values.email);
       setSended(true);
     } catch (error: unknown) {
       // TODO: エラーの種類によってメッセージを変える
@@ -34,16 +35,16 @@ const LoginPage: WithGetAccessControl<React.FC> = () => {
 
   return (
     <div>
-      {user && (
+      {userData && (
         <div>
           <p>
-            {user.email}
+            {userData.email}
             としてログインしています。
           </p>
           <Button onClick={logout}>ログアウト</Button>
         </div>
       )}
-      {!user && (
+      {!userData && (
         <Paper radius="md" shadow="sm" p="lg" m="auto" withBorder style={{ maxWidth: '480px' }}>
           {!sended && (
             <>
@@ -94,5 +95,7 @@ const LoginPage: WithGetAccessControl<React.FC> = () => {
 };
 
 LoginPage.getInitialProps = async () => ({ title: 'パスワードを忘れた - QuizWis' });
+
+LoginPage.getAccessControl = () => null;
 
 export default LoginPage;
