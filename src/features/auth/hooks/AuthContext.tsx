@@ -20,6 +20,7 @@ import {
   useCreateUserMutation, useGetUserLazyQuery,
 } from '../../../graphql/generated/type';
 import auth from '../firebase';
+import translateAuthError from '../functions/translateAuthError';
 
 type AuthContextType = {
   userData: AuthContextUserType | null;
@@ -87,9 +88,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return ret;
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(error.message);
+        throw new Error(translateAuthError(error.message));
       }
-      throw new Error('unknown error');
+      throw new Error('不明なエラーです。');
     }
   };
 
@@ -101,9 +102,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return ret;
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(error.message);
+        throw new Error(translateAuthError(error.message));
       }
-      throw new Error('unknown error');
+      throw new Error('不明なエラーです。');
     }
   };
 
@@ -114,9 +115,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       return ret;
     } catch (error: unknown) {
       if (error instanceof Error) {
-        throw new Error(error.message);
+        throw new Error(translateAuthError(error.message));
       }
-      throw new Error('unknown error');
+      throw new Error('不明なエラーです。');
     }
   };
 
@@ -129,20 +130,31 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       if (error instanceof Error) {
         throw new Error(error.message);
       }
-      throw new Error('unknown error');
+      throw new Error('不明なエラーです。');
     }
   };
 
   const sendPasswordReset = async (email: string) => {
-    const actionCodeSettings = {
-      url: 'http://localhost:3000/login',
-    };
-    await sendPasswordResetEmail(auth, email, actionCodeSettings);
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(translateAuthError(error.message));
+      }
+      throw new Error('不明なエラーです。');
+    }
   };
 
   const passwordReset = async (actionCode: string, newPassword: string) => {
-    verifyPasswordResetCode(auth, actionCode);
-    return confirmPasswordReset(auth, actionCode, newPassword);
+    try {
+      await verifyPasswordResetCode(auth, actionCode);
+      return await confirmPasswordReset(auth, actionCode, newPassword);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        throw new Error(translateAuthError(error.message));
+      }
+      throw new Error('不明なエラーです。');
+    }
   };
 
   const logout = () => signOut(auth);
