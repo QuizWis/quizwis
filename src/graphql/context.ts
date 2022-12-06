@@ -10,6 +10,9 @@ export type Context = {
   }
 };
 
+/**
+ * GraphQLのクエリに渡されるcontext
+ */
 export async function createContext(): Promise<Context> {
   return {
     prisma,

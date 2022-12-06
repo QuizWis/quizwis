@@ -3,6 +3,9 @@ import { User } from 'nexus-prisma';
 
 import { node } from '../interface/node';
 
+/**
+ * ユーザー型の定義
+ */
 export const user = objectType({
   name: 'User',
   definition(t) {

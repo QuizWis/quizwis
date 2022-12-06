@@ -5,8 +5,8 @@ import Link from 'next/link';
 import React from 'react';
 
 /**
- * 独自定義のヘッダー。
- * 現状全ページに標準で表示される。
+ * デフォルトのヘッダー
+ * TODO: ログイン状態に応じて表示を変える
  */
 const CustomHeader = () => (
   <Header

@@ -37,6 +37,10 @@ type Props<T> = AppProps<T> & {
   }
 };
 
+/**
+ * 全てのページの共通要素
+ * 機能関係はここに書く
+ */
 const MyApp: React.FC<Props<PagePropsType>> = ({ Component, pageProps }) => {
   const { getAccessControl = accessControl } = Component;
   useAccessControl(getAccessControl);

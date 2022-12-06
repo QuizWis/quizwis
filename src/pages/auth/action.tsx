@@ -9,6 +9,9 @@ import React from 'react';
 import ResetPasswordForm from '../../features/auth/components/ResetPasswordForm';
 import { WithGetAccessControl } from '../../types';
 
+/**
+ * パスワード再設定のためのページ
+ */
 const forgotPasswordPage: WithGetAccessControl<NextPage> = () => {
   const [mode, setMode] = React.useState<string>('');
   const [actionCode, setActionCode] = React.useState<string>('');

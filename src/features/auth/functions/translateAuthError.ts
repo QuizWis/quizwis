@@ -1,3 +1,8 @@
+/**
+ * firebase authが投げたエラーをユーザー用メッセージに変換する
+ * @param errorMessage エラーメッセージ
+ */
+
 const translateAuthError = (errorMessage: string) => {
   const errorCode = errorMessage.match(/\((.*)\)/)?.[1];
   if (errorCode === 'auth/popup-closed-by-user') {

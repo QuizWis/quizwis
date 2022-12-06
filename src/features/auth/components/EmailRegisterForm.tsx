@@ -7,6 +7,9 @@ import showErrorNotification from '../../../functions/showErrorNotification';
 import { validationPassword, validationEmail } from '../functions/validation';
 import { useAuth } from '../hooks/AuthContext';
 
+/**
+ * メールアドレスとパスワードでユーザー登録するためのフォーム
+ */
 const EmailRegisterForm = () => {
   const { emailCreate } = useAuth();
 

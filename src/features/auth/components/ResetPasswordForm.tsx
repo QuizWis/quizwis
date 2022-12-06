@@ -12,6 +12,10 @@ type ResetPasswordFormProps = {
   actionCode: string,
 };
 
+/**
+ * パスワード再設定用のフォーム
+ * @param props actionCode: パスワードリセット用のコード
+ */
 const ResetPasswordForm = (props: ResetPasswordFormProps) => {
   const { actionCode } = props;
   const { passwordReset } = useAuth();

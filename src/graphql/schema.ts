@@ -5,6 +5,9 @@ import { asNexusMethod, fieldAuthorizePlugin, makeSchema } from 'nexus';
 
 import * as types from './schema/index';
 
+/**
+ * GraphQLのスキーマの設定
+ */
 const schema = makeSchema({
   features: {
     abstractTypeStrategies: {

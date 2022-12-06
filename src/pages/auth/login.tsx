@@ -17,6 +17,9 @@ import TwitterLoginButton from '../../features/auth/components/TwitterLoginButto
 import { useAuth } from '../../features/auth/hooks/AuthContext';
 import { WithGetAccessControl } from '../../types';
 
+/**
+ * ログインページ
+ */
 const LoginPage: WithGetAccessControl<NextPage> = () => {
   const { userData, logout } = useAuth();
 
