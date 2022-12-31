@@ -9,6 +9,9 @@ import showErrorNotification from '../../../functions/showErrorNotification';
 import { validationEmail } from '../functions/validation';
 import { useAuth } from '../hooks/AuthContext';
 
+/**
+ * メールアドレスとパスワードでログインするためのフォーム
+ */
 const EmailLoginForm = () => {
   const { emailLogin } = useAuth();
 

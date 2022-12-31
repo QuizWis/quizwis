@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Googleアイコン
+ * Googleロゴ
  */
 const GoogleIcon = (props: React.ComponentPropsWithoutRef<'svg'>) => (
   <svg

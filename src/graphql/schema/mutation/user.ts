@@ -1,5 +1,8 @@
 import { mutationField, nonNull, arg } from 'nexus';
 
+/**
+ * ユーザーを作成するmutation
+ */
 export const createUser = mutationField('createUser', {
   type: 'User',
   args: {
@@ -12,6 +15,9 @@ export const createUser = mutationField('createUser', {
   },
 });
 
+/**
+ * ユーザーを更新するmutation
+ */
 export const updateUser = mutationField('updateUser', {
   type: 'User',
   args: {

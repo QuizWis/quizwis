@@ -15,7 +15,7 @@ const GoogleLoginButton = (props: ButtonProps) => {
   const handleClick = async () => {
     try {
       await googleLogin();
-      // TODO: マイページ的なものに飛ばす
+      // TODO: マイページに飛ばす
     } catch (error: unknown) {
       showErrorNotification({
         title: 'ログイン失敗',

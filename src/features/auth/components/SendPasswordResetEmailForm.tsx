@@ -8,6 +8,9 @@ import showErrorNotification from '../../../functions/showErrorNotification';
 import { validationEmail } from '../functions/validation';
 import { useAuth } from '../hooks/AuthContext';
 
+/**
+ * パスワード再設定用のメールを送るためのフォーム
+ */
 const SendPasswordResetEmailForm = () => {
   const { sendPasswordReset } = useAuth();
 

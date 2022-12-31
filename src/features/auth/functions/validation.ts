@@ -1,3 +1,8 @@
+/**
+ * mantine uiのフォームに設定する用のパスワードのバリデーション
+ * 8文字以上128文字以下かつ大文字、小文字、数字を全て含む
+ * @returns エラーメッセージ(正常なら`null`)
+ */
 export const validationPassword = (value: string) => {
   if (!value) {
     return 'パスワードは必須です。';
@@ -13,6 +18,10 @@ export const validationPassword = (value: string) => {
   return null;
 };
 
+/**
+ * mantine uiのフォームに設定する用のメールアドレスのバリデーション
+ * @returns エラーメッセージ(正常なら`null`)
+ */
 export const validationEmail = (value: string) => {
   if (!value) {
     return 'メールアドレスは必須です。';

@@ -1,5 +1,8 @@
 import { arg, nonNull, queryField } from 'nexus';
 
+/**
+ * databaseId(firebaseと共通)からユーザーを取得するquery
+ */
 export const getUser = queryField('user', {
   type: 'User',
   args: {

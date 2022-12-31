@@ -1,5 +1,8 @@
 import { queryField, nonNull, stringArg } from 'nexus';
 
+/**
+ * nodeからデータを取得するquery
+ */
 export const node = queryField('node', {
   type: 'Node',
   args: {

@@ -1,6 +1,9 @@
 import { gql } from 'apollo-server-micro';
 
-export const GetUserQuery = gql`
+/**
+ * ユーザーの基本情報を取得するためのGraphQLクエリ
+ */
+const GetUserQuery = gql`
   query GetUser($databaseId: String!) {
     user(databaseId: $databaseId) {
       id
@@ -9,3 +12,5 @@ export const GetUserQuery = gql`
     }
   }
 `;
+
+export default GetUserQuery;

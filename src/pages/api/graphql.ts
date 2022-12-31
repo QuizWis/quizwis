@@ -9,6 +9,9 @@ const cors = Cors();
 const apolloServer = new ApolloServer({ schema, context: createContext });
 const startServer = apolloServer.start();
 
+/**
+ * GraphQL APIの構築
+ */
 export default cors(async (req, res) => {
   if (req.method === 'OPTIONS') {
     res.end();

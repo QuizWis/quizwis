@@ -5,6 +5,9 @@ import React from 'react';
 
 import { WithGetAccessControl } from '../types';
 
+/**
+ * メインページ
+ */
 const Home: WithGetAccessControl<NextPage> = () => (
   <Link href="/auth/login" passHref>
     <Text variant="link" component="a" href="/auth/login">
